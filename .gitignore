@@ -4,11 +4,11 @@
 *.log
 /web-server/vendor/
 
-# Hugo или HTML/CSS
+# Hugo or HTML/CSS
 /site/public/
 /site/resources/
 
-# Общие системные файлы
+# Common system files
 .DS_Store
 Thumbs.db
 *.db
