@@ -1,0 +1,46 @@
+{{define "base"}}
+    <!DOCTYPE html>
+    <html lang="ru">
+
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{{block "tittle" .}} {{end}}</title>
+            <link rel="stylesheet" href="/static/css/style.css">
+            {{block "css" .}}
+
+            {{end}}
+        </head>
+
+        <body>
+
+            <header>
+                <div class="container">
+                    <h1>ИТ-сервисы для «Цифрового университета | Разработка iOS-приложения личного кабинета</h1>
+                    <nav>
+                        <ul>
+                            <li><a href="/home">Главная</a></li>
+                            <li><a href="/about">О проекте</a></li>
+                            <li><a href="/team">Команда</a></li>
+                            <li><a href="/journal">Журнал</a></li>
+                            <li><a href="/resources">Ресурсы</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+            {{block "content" .}}
+
+            {{end}}
+            <footer>
+                <div class="container">
+                    <p>Куратор: Захаров Илья Андреевич</p>
+                    <p>Руководитель проекта: Деген Светислав Владимирович</p>
+                    <p>&copy; 2025 Команда разработки iOS-приложения</p>
+                </div>
+            </footer>
+        </body>
+        {{block "js" .}}
+
+        {{end}}
+    </html>
+{{end}}

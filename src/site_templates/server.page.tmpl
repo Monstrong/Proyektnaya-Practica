@@ -1,26 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server_Testing_Page</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>ИТ-сервисы для «Цифрового университета | Разработка iOS-приложения личного кабинета</h1>
-            <nav>
-                <ul>
-                    <li><a href="/home">Главная</a></li>
-                    <li><a href="/about">О проекте</a></li>
-                    <li><a href="/team">Команда</a></li>
-                    <li><a href="/journal">Журнал</a></li>
-                    <li><a href="/resources">Ресурсы</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+{{template "base" .}}
+
+{{define "tittle"}}Server_Testing_Page{{end}}
+    
+{{define "content"}}
     <main class="container">
         <div class="row">
             <div class="col">
@@ -29,5 +11,4 @@
             </div>
         </div>
     </main>
-</body>
-</html>
+{{end}}
