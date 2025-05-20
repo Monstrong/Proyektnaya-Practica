@@ -5,6 +5,7 @@ import (
 
 	"github.com/monstrong/proyektnaya-practica/src/pkg/config"
 	"github.com/monstrong/proyektnaya-practica/src/pkg/models"
+	"github.com/monstrong/proyektnaya-practica/src/pkg/others"
 	"github.com/monstrong/proyektnaya-practica/src/pkg/render"
 )
 
@@ -27,6 +28,22 @@ func NewRepo(a *config.AppConfig) *Repository {
 func NewHandlers(r *Repository) {
 	Repo = r
 }
+
+func (m *Repository) ServerPage(w http.ResponseWriter, r *http.Request) {
+
+	stringMap := make(map[string]string)
+	intMap := make(map[string]int)
+	stringMap["test"] = "Hello"
+	stringMap["time"] = others.CurrentTime()
+	intMap["randomnum"] = others.Randomnum()
+
+	render.RenderTemplate(w, "server.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+		IntMap: intMap,
+	})
+}
+
+
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
 }
@@ -45,14 +62,4 @@ func (m *Repository) Resources(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) Team(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "team.page.tmpl", &models.TemplateData{})
-}
-
-func (m *Repository) ServerPage(w http.ResponseWriter, r *http.Request) {
-
-	stringMap := make(map[string]string)
-	stringMap["test"] = "Hello"
-
-	render.RenderTemplate(w, "server.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
-	})
 }

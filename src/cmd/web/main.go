@@ -21,7 +21,7 @@ func main() {
 	}
 
 	app.TemplateCache = tc
-	app.UseCache = false
+	app.UseCache = true
 
 	render.NewTemplates(&app)
 
@@ -31,13 +31,6 @@ func main() {
 	// Обработчик статических файлов (CSS, JS, изображения)
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	// http.HandleFunc("/home", handlers.Repo.Home)
-	// http.HandleFunc("/about", handlers.Repo.About)
-	// http.HandleFunc("/journal", handlers.Repo.Journal)
-	// http.HandleFunc("/team", handlers.Repo.Team)
-	// http.HandleFunc("/resources", handlers.Repo.Resources)
-	// http.HandleFunc("/", handlers.Repo.ServerPage)
 
 	fmt.Printf("Starting application on port %s\n", portNumber)
 	// _ = http.ListenAndServe(portNumber, nil)
