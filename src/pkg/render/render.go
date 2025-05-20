@@ -1,12 +1,13 @@
 package render
-	// При старте сервера (main.go):
-    //     Вызывается CreateTemplateCache() — все шаблоны загружаются в память.
-    //     Кэш сохраняется в app.TemplateCache.
-    // При запросе (например, /home):
-    //     handlers.Home вызывает RenderTemplate(w, "home.page.tmpl").
-    //     RenderTemplate достаёт шаблон из кэша и отправляет его клиенту.
-    // Если шаблонов нет в site_templates:
-    //     CreateTemplateCache вернёт ошибку, и сервер не запустится (логируется в main.go).
+
+// При старте сервера (main.go):
+//     Вызывается CreateTemplateCache() — все шаблоны загружаются в память.
+//     Кэш сохраняется в app.TemplateCache.
+// При запросе (например, /home):
+//     handlers.Home вызывает RenderTemplate(w, "home.page.tmpl").
+//     RenderTemplate достаёт шаблон из кэша и отправляет его клиенту.
+// Если шаблонов нет в site_templates:
+//     CreateTemplateCache вернёт ошибку, и сервер не запустится (логируется в main.go).
 import (
 	"bytes"
 	"fmt"
@@ -16,6 +17,7 @@ import (
 	"path/filepath"
 
 	"github.com/monstrong/proyektnaya-practica/src/pkg/config"
+	"github.com/monstrong/proyektnaya-practica/src/pkg/models"
 )
 
 //Что это? Пустая карта (map) для кастомных функций, которые можно использовать в шаблонах.
@@ -34,7 +36,12 @@ func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+
+	return td
+}
+
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 	var tc map[string]*template.Template
 	if app.UseCache {
 		// get the template cache from the app config
@@ -51,8 +58,11 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 
 	//Рендерим в буфер:
 	buf := new(bytes.Buffer)
-	_ = t.Execute(buf, nil)
-	//  t.Execute — применяет шаблон, подставляя данные (второй аргумент nil — значит, данных нет).
+
+	td = AddDefaultData(td)
+
+	_ = t.Execute(buf, td)
+	//  t.Execute — применяет шаблон, подставляя данные.
     //	Результат пишется в buf (временный буфер в памяти), а не сразу в ResponseWriter.
     //	Зачем буфер? Чтобы избежать частичной отправки HTML, если в шаблоне будет ошибка.
 

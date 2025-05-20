@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/monstrong/proyektnaya-practica/src/pkg/config"
+	"github.com/monstrong/proyektnaya-practica/src/pkg/models"
 	"github.com/monstrong/proyektnaya-practica/src/pkg/render"
 )
 
@@ -27,25 +28,31 @@ func NewHandlers(r *Repository) {
 	Repo = r
 }
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "home.page.tmpl")
+	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "about.page.tmpl")
+	render.RenderTemplate(w, "about.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) Journal(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "journal.page.tmpl")
+	render.RenderTemplate(w, "journal.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) Resources(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "resources.page.tmpl")
+	render.RenderTemplate(w, "resources.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) Team(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "team.page.tmpl")
+	render.RenderTemplate(w, "team.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) ServerPage(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "server.page.tmpl")
+
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello"
+
+	render.RenderTemplate(w, "server.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
