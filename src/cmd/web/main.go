@@ -15,7 +15,8 @@ var portNumber = ":8080"
 func main() {
 	var app config.AppConfig
 
-	tc, err := render.CreateTemplateCache(); if err != nil {
+	tc, err := render.CreateTemplateCache()
+	if err != nil {
 		log.Fatal("cannot create template cache, ", err)
 	}
 
@@ -31,13 +32,23 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	http.HandleFunc("/home", handlers.Repo.Home)
-	http.HandleFunc("/about", handlers.Repo.About)
-	http.HandleFunc("/journal", handlers.Repo.Journal)
-	http.HandleFunc("/team", handlers.Repo.Team)
-	http.HandleFunc("/resources", handlers.Repo.Resources)
-	http.HandleFunc("/", handlers.Repo.ServerPage)
+	// http.HandleFunc("/home", handlers.Repo.Home)
+	// http.HandleFunc("/about", handlers.Repo.About)
+	// http.HandleFunc("/journal", handlers.Repo.Journal)
+	// http.HandleFunc("/team", handlers.Repo.Team)
+	// http.HandleFunc("/resources", handlers.Repo.Resources)
+	// http.HandleFunc("/", handlers.Repo.ServerPage)
 
 	fmt.Printf("Starting application on port %s\n", portNumber)
-	_ = http.ListenAndServe(portNumber, nil)
+	// _ = http.ListenAndServe(portNumber, nil)
+
+	srv := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+
+	err = srv.ListenAndServe()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
