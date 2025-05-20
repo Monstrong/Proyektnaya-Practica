@@ -20,7 +20,7 @@ func main() {
 	}
 
 	app.TemplateCache = tc
-	app.UseCache = true
+	app.UseCache = false
 
 	render.NewTemplates(&app)
 
