@@ -4,16 +4,29 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
+	"github.com/alexedwards/scs/v2"
 	"github.com/monstrong/proyektnaya-practica/src/pkg/config"
 	"github.com/monstrong/proyektnaya-practica/src/pkg/handlers"
 	"github.com/monstrong/proyektnaya-practica/src/pkg/render"
 )
 
 var portNumber = ":8080"
+var session *scs.SessionManager
+var app config.AppConfig
 
 func main() {
-	var app config.AppConfig
+
+	// изменить этот параметр на true когда сервер работает не на локал хосте
+	app.InProduction = false
+
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = app.InProduction
+	app.Session = session
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
@@ -27,10 +40,6 @@ func main() {
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
-
-	// Обработчик статических файлов (CSS, JS, изображения)
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	fmt.Printf("Starting application on port %s\n", portNumber)
 	// _ = http.ListenAndServe(portNumber, nil)

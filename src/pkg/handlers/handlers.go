@@ -37,6 +37,11 @@ func (m *Repository) ServerPage(w http.ResponseWriter, r *http.Request) {
 	stringMap["time"] = others.CurrentTime()
 	intMap["randomnum"] = others.Randomnum()
 
+	// remoteIP := r.RemoteAddr
+	// m.App.Session.Put(r.Context(), "remote_ip", remoteIP) - это в главной
+	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIP
+
 	render.RenderTemplate(w, "server.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 		IntMap: intMap,
@@ -45,7 +50,11 @@ func (m *Repository) ServerPage(w http.ResponseWriter, r *http.Request) {
 
 
 func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	remoteIP := r.RemoteAddr
+	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
+	
 	render.RenderTemplate(w, "home.page.tmpl", &models.TemplateData{})
+	
 }
 
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {

@@ -12,6 +12,13 @@
                 <p>это данные от шаблона: {{index .StringMap "test"}}</p>
                 <p>время в Москве сейчас: {{index .StringMap "time"}}</p>
                 <p>случайное число: {{index .IntMap "randomnum"}}</p>
+                <p>
+                    {{if ne (index .StringMap "remote_ip") ""}}
+                        Твой IP - {{index .StringMap "remote_ip"}}
+                    {{else}}
+                        Я не знаю ваш айпи. Зайдите на <a href="/home">Главную</a>, чтобы я мог его узнать
+                    {{end}}
+                </p>
             </div>
         </div>
     </main>

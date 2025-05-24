@@ -15,6 +15,11 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Use(middleware.Recoverer)
 	mux.Use(WriteToConsole)
 	mux.Use(NoSurf)
+	mux.Use(SessionLoad)
+	
+    // Обработчик статических файлов
+    fileServer := http.FileServer(http.Dir("./static"))
+    mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
 
 	mux.Get("/", handlers.Repo.ServerPage)
 	mux.Get("/home", handlers.Repo.Home)
